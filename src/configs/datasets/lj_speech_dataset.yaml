@@ -1,0 +1,6 @@
+train:
+  _target_: src.datasets.LJSpeechDataset
+  dataset_path: "LJSpeech-1.1"
+  dataset_length: 100
+  gen_mel_spec: True
+  override: True

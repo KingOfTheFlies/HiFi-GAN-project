@@ -6,10 +6,6 @@ from src.utils.mel_utils import MelSpectrogram, MelSpectrogramConfig
 
 class HiFiGANLoss(nn.Module):
     def __init__(self, lambda_fm=2.0, lambda_mel=45.0):
-        """
-        :param lambda_fm: вес для feature matching loss
-        :param lambda_mel: вес для mel-spectrogram loss
-        """
         super().__init__()
         self.lambda_fm = lambda_fm
         self.lambda_mel = lambda_mel
@@ -19,12 +15,6 @@ class HiFiGANLoss(nn.Module):
         self.mel_transform = MelSpectrogram(self.mel_spec_conf)
 
     def adversarial_loss(self, disc_outputs, target_is_real):
-        """
-        Подсчет adversarial loss.
-        :param disc_outputs: список выходов дискриминатора.
-        :param target_is_real: True для реальных данных, False для сгенерированных.
-        :return: средний adversarial loss.
-        """
         losses = []
         target_value = 1.0 if target_is_real else 0.0
         for output in disc_outputs:
@@ -33,12 +23,6 @@ class HiFiGANLoss(nn.Module):
         return sum(losses) / len(losses)
 
     def feature_matching_loss(self, gen_feature_maps, true_feature_maps):
-        """
-        Подсчет feature matching loss.
-        :param gen_feature_maps: список feature maps для сгенерированной волны.
-        :param true_feature_maps: список feature maps для реальной волны.
-        :return: средний feature matching loss.
-        """
         losses = []
         for gen, true in zip(gen_feature_maps, true_feature_maps):
             min_len = min(gen.shape[-1], true.shape[-1])
@@ -46,23 +30,11 @@ class HiFiGANLoss(nn.Module):
         return sum(losses) / len(losses)
 
     def mel_spectrogram_loss(self, gen_wav, true_wav):
-        """
-        Подсчет mel-spectrogram loss.
-        :param gen_wav: сгенерированная волна.
-        :param true_wav: реальная волна.
-        :return: L1 loss между мел-спектрограммами.
-        """
         gen_mel = self.mel_transform(gen_wav)
         true_mel = self.mel_transform(true_wav)
         return self.mel_loss(gen_mel, true_mel)
 
     def forward(self, model_output, true_wav, **batch):
-        """
-        Подсчет всех потерь.
-        :param model_output: словарь, возвращаемый HiFiGAN.forward().
-        :param true_wav: реальная волна.
-        :return: суммарная loss и детали.
-        """
         # Adversarial Loss для генератора
         gen_adv_loss_msd = self.adversarial_loss(model_output['disc_gen']['msd']['outputs'], target_is_real=True)
         gen_adv_loss_mpd = self.adversarial_loss(model_output['disc_gen']['mpd']['outputs'], target_is_real=True)

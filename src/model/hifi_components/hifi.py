@@ -96,7 +96,7 @@ class MSDSub(nn.Module):
             feature_maps.append(input)
 
         output = self.final_conv(input).view(input.size(0), -1)
-        feature_maps = list(feature_maps)  # Ensure feature_maps is a list
+        feature_maps = list(feature_maps)
 
         return {
             'output': output,
@@ -116,7 +116,7 @@ class MSD(nn.Module):
         for subdisc in self.subdiscriminators:
             result = subdisc(wave)
             outputs.append(result['output'])
-            feature_maps += result['feature_maps']  # Use extend to avoid concatenating with tuples
+            feature_maps += result['feature_maps']
 
         return {
             'outputs': outputs,

@@ -12,6 +12,8 @@ class HiFiGAN(nn.Module):
         super().__init__()
         self.generator = HiFiGenerator(**generator_config)
         self.discriminator = HiFiDiscriminator(**discriminator_config)
+        print("generator params:", self.generator)
+        print("discr params:",self.discriminator)
 
     def forward(self, mel_spec: Tensor, true_wav: Tensor, **batch) -> Dict[str, Any]:
         """

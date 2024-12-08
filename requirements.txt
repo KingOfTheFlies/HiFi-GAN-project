@@ -8,6 +8,7 @@ pandas
 wandb
 comet_ml
 hydra-core
+torchaudio==2.2.0
 
 black
 isort

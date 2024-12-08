@@ -5,7 +5,7 @@ from src.utils.mel_utils import MelSpectrogram, MelSpectrogramConfig
 
 
 class HiFiGANLoss(nn.Module):
-    def __init__(self, lambda_fm=10.0, lambda_mel=45.0):
+    def __init__(self, lambda_fm=2.0, lambda_mel=45.0):
         """
         :param lambda_fm: вес для feature matching loss
         :param lambda_mel: вес для mel-spectrogram loss
@@ -41,7 +41,6 @@ class HiFiGANLoss(nn.Module):
         """
         losses = []
         for gen, true in zip(gen_feature_maps, true_feature_maps):
-            # Убедимся, что тензоры имеют одинаковую форму
             min_len = min(gen.shape[-1], true.shape[-1])
             losses.append(F.l1_loss(gen[..., :min_len], true[..., :min_len]))
         return sum(losses) / len(losses)

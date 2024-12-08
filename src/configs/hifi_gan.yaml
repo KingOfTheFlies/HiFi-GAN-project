@@ -27,7 +27,7 @@ lr_scheduler:
 
 loss_function:
   _target_: src.loss.HiFiGANLoss
-  lambda_fm: 10.0
+  lambda_fm: 2.0
   lambda_mel: 45.0
 trainer:
   log_step: 10

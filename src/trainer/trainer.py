@@ -46,8 +46,8 @@ class Trainer(BaseTrainer):
         batch.update(outputs)
 
         # print("--------------------------------------------------")
-        # print("batch[model_output].shape:", batch["model_output"]["wav_generated"].shape)
-
+        # print("wav_generated shape:", batch["model_output"]["wav_generated"].shape)
+        # print("wav_generated", batch["model_output"]["wav_generated"][0])
         # print("batch[model_output][disc_gen][msd][outputs].shape", batch["model_output"]["disc_gen"]["msd"]["outputs"][0].shape)
         # print("batch[model_output][disc_gen][msd][feature_maps].shape", batch["model_output"]["disc_gen"]["msd"]["feature_maps"][0].shape)
 
